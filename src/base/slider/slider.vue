@@ -4,7 +4,7 @@
       <slot></slot>
     </div>
     <div class="dots">
-      <span class="dot"  v-for="(item,index) in dots" :class="{active:currentPageIndex===index}" :key="index"></span>
+      <span class="dot" v-for="(item,index) in dots" :class="{active:currentPageIndex===index}" :key="index"></span>
     </div>
   </div>
 </template>
@@ -78,13 +78,19 @@ export default {
           threshold: 0.3,
           speed: 400
         },
+        // snap: true,
+        // snapLoop: this.loop,
+        // snapThreshold: 0.3,
+        // snapSpeed: 400,
         click: true
       })
       this.slider.on('scrollEnd', () => {
         let pageIndex = this.slider.getCurrentPage().pageX
         if (this.loop) {
+        //  pageIndex = pageIndex
           this.currentPageIndex = pageIndex
         }
+
         if (this.autoPlay) {
           clearTimeout(this.timer)
           this._play()
