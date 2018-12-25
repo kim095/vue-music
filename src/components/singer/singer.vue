@@ -10,6 +10,7 @@
   import {getStrFirstCharacter} from 'common/js/util'
   import Singer from 'common/js/singer'
   import ListView from 'base/listview/listview'
+
   const HOT_NAME = '热门'
   const HOT_SINGER_LEN = 10
   export default {
@@ -26,7 +27,7 @@
         getSingerList().then((res) => {
           if (res.code === ERR_OK) {
             this.singers = this._normalizeSinger(res.singerList.data.singerlist);//res.singerList.data.singerlist
-          // console.log( this._normalizeSinger(this.singers))
+            // console.log( this._normalizeSinger(this.singers))
           }
         })
       },
@@ -66,30 +67,30 @@
             )
           )
         })
-       //对map排序
-        let hot = [],ret = [];
-        for(let key in map){
+        //对map排序
+        let hot = [], ret = [];
+        for (let key in map) {
           let val = map[key]
-          if(val.title.match(/[a-zA-Z]/)){
+          if (val.title.match(/[a-zA-Z]/)) {
             ret.push(val)
-          }else if(val.title === HOT_NAME){
+          } else if (val.title === HOT_NAME) {
             hot.push(val)
           }
         }
-        ret.sort((a,b)=>{
-          return a.title.charCodeAt(0)-b.title.charCodeAt(0)
+        ret.sort((a, b) => {
+          return a.title.charCodeAt(0) - b.title.charCodeAt(0)
         })
         return hot.concat(ret)
       },
       test() {
         var singers = this.singers
         for (let i = 0; i < singers.length; i++) {
-        //  console.log(singers[i]);
+          //  console.log(singers[i]);
           //console.log(singers[i].singer_name + '---' + getStrFirstCharacter(singers[i].singer_name, '-', true))
         }
       }
     },
-    components:{
+    components: {
       ListView
     }
   }
@@ -98,7 +99,7 @@
 <style scoped lang="stylus" rel="stylesheet/stylus">
   .singer
     position: fixed
-    top: 88px
+    top: 86px
     bottom: 0
     width: 100%
 </style>
