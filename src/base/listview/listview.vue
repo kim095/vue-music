@@ -9,7 +9,7 @@
       <li v-for="(group,index) in data" class="list-group" ref="listGroup">
         <h2 class="list-group-title">{{group.title}}</h2>
         <ul>
-          <li v-for="(item,index) in group.items" class="list-group-item">
+          <li @click="selectItem(item)" v-for="(item,index) in group.items" class="list-group-item">
             <img class="avator" v-lazy="item.avator"/>
             <span class="name">{{item.name}}</span>
           </li>
@@ -87,6 +87,9 @@
         let delta = (this.touch.y2 - this.touch.y1) / ANCHOR_HEIGHT | 0;
         let anchorIndex = parseInt(this.touch.anchorIndex) + delta;
         this._scrollTo(anchorIndex)
+      },
+      selectItem(item){
+        this.$emit('select',item)
       },
       scroll(pos) {
         this.scrollY = pos.y

@@ -1,5 +1,5 @@
 import jsonp from 'common/js/jsonp'
-import {commonParams} from './config'
+import {commonParams,options} from './config'
 
 export function getSingerList() {
   const url = 'https://u.y.qq.com/cgi-bin/musicu.fcg'
@@ -32,4 +32,18 @@ export function getSingerList() {
     })
   })
   return jsonp(url, data, {})
+}
+
+export function getSingerDetail(singer_mid) {
+  const url = 'https://c.y.qq.com/v8/fcg-bin/fcg_v8_singer_track_cp.fcg'
+  const data = Object.assign({},commonParams,{
+    hostUin:0,
+    needNewCode:0,
+    platform:'listen',
+    begin:0,
+    num:100,
+    songstatus:1,
+    singermid:singer_mid
+  })
+  return jsonp(url,data,options)
 }
