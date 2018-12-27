@@ -8,6 +8,7 @@
   import {mapGetters} from 'vuex'
   import {getSingerDetail} from "api/singer"
   import {ERR_OK} from "api/config"
+  import {createSong} from "common/js/song"
 
   export default {
     computed:{
@@ -15,8 +16,12 @@
         'singer'
       ])
     },
+    data(){
+      return{
+         songs:[]
+      }
+    },
     created(){
-      console.log(this.singer)
       this._getDetail()
     },
     methods:{
@@ -27,9 +32,29 @@
          }
          getSingerDetail(this.singer.mid).then((res)=>{
            if(res.code === ERR_OK){
-             console.log(res.data.list);
+           //  console.log(res.data.list);
+             this.songs = this._normalizeSongs(res.data.list)
+             console.log(this.songs)
+             // var songmid = '002CxSLT41D5tD';
+             // getSongUrl(songmid).then((res)=>{
+             //   var vkey = res.req_0.data.midurlinfo[0].vkey;
+             //   var media = res.req_0.data.midurlinfo[0].filename;
+             //   var url_pre = res.req_0.data.sip[1];
+             //   console.log("url:");
+             //   console.log(`${url_pre}${media}?guid=4029829689&vkey=${vkey}&uin=0&fromtag=66`)
+             // })
            }
          })
+      },
+      _normalizeSongs(list){
+        let ret = []
+        list.forEach((item)=>{
+          let {musicData} = item
+          if(musicData.songid&&musicData.albummid){
+            ret.push(createSong(musicData))
+          }
+        })
+        return ret
       }
     }
   }

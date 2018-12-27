@@ -1,3 +1,93 @@
+import jsonp from 'common/js/jsonp'
+import {commonParams} from "api/config"
+
 export default class Song {
-  constructor({id,})
+  constructor({id,mid,singer,name,album,duration,image,url}){
+    this.id = id
+    this.mid = mid
+    this.singer = singer
+    this.name = name
+    this.album = album
+    this.duration = duration
+    this.image = image
+    this.url = url
+  }
+}
+
+export function createSong(musicData) {
+  return new Song({
+    id:musicData.songid,
+    mid:musicData.songmid,
+    singer:filterSinger(musicData.singer),
+    name:musicData.songname,
+    album:musicData.albumname,
+    duration:musicData.interval,
+    image:`https://y.gtimg.cn/music/photo_new/T002R300x300M000${musicData.albummid}.jpg`,
+    url:''
+  })
+}
+
+function getSongUrlByVkey(songmid) {
+ getSongUrl(songmid).then((response)=>{
+    let base = response.req_0.data;
+    let vkey = base.midurlinfo[0].vkey,media = base.midurlinfo[0].filename,base_url = base.sip[1];
+   // cb(`${base_url}${media}?guid=4029829689&vkey=${vkey}&uin=0&fromtag=66`)
+    return `${base_url}${media}?guid=4029829689&vkey=${vkey}&uin=0&fromtag=66`
+  })
+}
+
+export function getSongUrl(songmid) {
+  const url = 'https://u.y.qq.com/cgi-bin/musicu.fcg'
+  const data = Object.assign({},commonParams,{
+    '-':'getplaysongvkey'+(Math.random()+'').replace('0.',''),
+    loginUin:0,
+    hostUin:0,
+    format:'json',
+    inCharset:'utf8',
+    outCharset:'utf-8',
+    notice:0,
+    platform:'yqq.json',
+    needNewCode:0,
+    data:JSON.stringify({
+      'req':{
+        'module':'CDN.SrfCdnDispatchServer',
+        'method':'GetCdnDispatch',
+        'param':{
+          'guid':'4029829689',
+          'calltype':0,
+          'userip':''
+        }
+      },
+      'req_0':{
+        'module':'vkey.GetVkeyServer',
+        'method':'CgiGetVkey',
+        'param':{
+          'guid':'4029829689',
+          'songmid':[`${songmid}`],
+          'songtype':[0],
+          'uin':'0',
+          'loginflag':1,
+          'platform':'20'
+        }
+      },
+      'comm':{
+        'uin':0,
+        'format':'json',
+        'ct':20,
+        'cv':0
+      }
+    })
+  })
+  return jsonp(url,data,{})
+}
+
+function filterSinger(singer) {
+  let ret = []
+  if(!singer){
+    return ''
+  }
+  singer.forEach((s)=>{
+    ret.push(s.name)
+  })
+  return ret.join('.')
 }
