@@ -27,11 +27,10 @@ export function createSong(musicData) {
   })
 }
 
-function getSongUrlByVkey(songmid) {
+export function getSongUrlByVkey(songmid) {
  getSongUrl(songmid).then((response)=>{
     let base = response.req_0.data;
     let vkey = base.midurlinfo[0].vkey,media = base.midurlinfo[0].filename,base_url = base.sip[1];
-   // cb(`${base_url}${media}?guid=4029829689&vkey=${vkey}&uin=0&fromtag=66`)
     return `${base_url}${media}?guid=4029829689&vkey=${vkey}&uin=0&fromtag=66`
   })
 }
