@@ -1,7 +1,7 @@
 <template>
     <div class="song-list">
       <ul>
-        <li @click="play(song)" v-for="(song,index) in songs" class="item">
+        <li @click="selectItem(song,index)" v-for="(song,index) in songs" class="item">
           <div class="content">
             <h2 class="name">{{song.name}}</h2>
             <p class="desc">{{getDesc(song)}}</p>
@@ -12,8 +12,6 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import {getSongUrl} from "common/js/song"
-
   export default {
    props:{
      songs:{
@@ -25,13 +23,8 @@
      getDesc(song){
        return `${song.singer} - ${song.album}`
      },
-     play(song){
-       getSongUrl(song.mid).then((response)=>{
-         let base = response.req_0.data;
-         let vkey = base.midurlinfo[0].vkey,media = base.midurlinfo[0].filename,base_url = base.sip[1];
-         let url = `${base_url}${media}?guid=4029829689&vkey=${vkey}&uin=0&fromtag=66`
-         location.href = url;
-       })
+     selectItem(song,index){
+       this.$emit('select',song,index)
      }
    }
  }

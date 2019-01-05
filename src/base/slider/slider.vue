@@ -73,10 +73,10 @@ export default {
         scrollX: true,
         scrollY: false,
         momentum: false,
-        snap: {
-          loop: this.loop,
-          threshold: 0.3,
-          speed: 400
+        snap:{
+          loop:this.loop,
+          threshold:0.3,
+          speed:400
         },
         // snap: true,
         // snapLoop: this.loop,
@@ -87,9 +87,9 @@ export default {
       this.slider.on('scrollEnd', () => {
         let pageIndex = this.slider.getCurrentPage().pageX
         if (this.loop) {
-        //  pageIndex = pageIndex
-          this.currentPageIndex = pageIndex
+          pageIndex -=0
         }
+        this.currentPageIndex = pageIndex
 
         if (this.autoPlay) {
           clearTimeout(this.timer)
