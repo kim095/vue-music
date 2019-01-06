@@ -74,7 +74,6 @@
            list:this.songs,
            index
          })
-        console.log("item:",item);
       },
       ...mapActions([
         'selectPlay'
