@@ -40,7 +40,10 @@ import Scroll from 'base/scroll/scroll'
 import {getRecommend, getDiscList} from 'api/recommend'
 import {ERR_OK} from 'api/config'
 import Loading from 'base/loading/loading'
+import {playListMixin} from "common/js/mixin";
+
 export default {
+  mixins:[playListMixin],
   data() {
     return {
       recommends: [],
@@ -53,6 +56,11 @@ export default {
     this._getDiscList()
   },
   methods: {
+    handlePlayList(playList){
+       const bottom = playList.length>0?'60px':''
+      this.$refs.recommend.style.bottom = bottom
+      this.$refs.scroll.refresh()
+    },
     loadImage() {
       if (!this.checkloaded) {
         this.checkloaded = true
