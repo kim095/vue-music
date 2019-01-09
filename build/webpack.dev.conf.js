@@ -64,6 +64,21 @@ const devWebpackConfig = merge(baseWebpackConfig, {
           console.log(e)
         })
       })
+      apiRoutes.get('/api/getSongList',function (req,res) {
+        let url = 'https://c.y.qq.com/qzone/fcg-bin/fcg_ucc_getcdinfo_byids_cp.fcg'
+        axios.get(url,{
+          headers:{
+            //https://y.qq.com/n/yqq/playsquare/6335849700.html
+            referer:`https://y.qq.com/n/yqq/playsquare/${req.query.disstid}.html`,
+            origin:'https://y.qq.com'
+          },
+          params:req.query
+        }).then((response)=>{
+          res.json(response.data)
+        }).catch((e)=>{
+          console.log(e)
+        })
+      })
       apiRoutes.get('/api/lyric',function (req,res) {
         let url = 'https://c.y.qq.com/lyric/fcgi-bin/fcg_query_lyric_new.fcg'
         axios.get(url,{
