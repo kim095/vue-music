@@ -22,7 +22,7 @@
         class="list"
         ref="list">
         <div class="song-list-wrapper">
-          <song-list @select="selectItem" :songs="songs"></song-list>
+          <song-list :rank="rank" @select="selectItem" :songs="songs"></song-list>
         </div>
         <div  class="loading-container" v-show="!songs.length">
           <loading></loading>
@@ -58,11 +58,16 @@
       title:{
         type:String,
         default:''
+      },
+      rank:{
+        type:Boolean,
+        default:false
       }
+
     },
     data(){
       return{
-        scrollY:0
+        scrollY:0,
       }
     },
     computed:{
