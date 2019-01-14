@@ -98,7 +98,7 @@ export function getSongUrl(songmid) {
   return jsonp(url,data,{})
 }
 
-function filterSinger(singer) {
+export function filterSinger(singer) {
   let ret = []
   if(!singer){
     return ''

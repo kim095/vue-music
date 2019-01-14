@@ -3,6 +3,12 @@ export default class Singer {
     this.id = id;
     this.mid = mid;
     this.name = name;
-    this.avator = avator.replace(".webp",".jpg")
+    if(avator){
+      //this.avator = avator.replace(".webp",".jpg")
+      this.avator=`https://y.gtimg.cn/music/photo_new/T001R300x300M000${mid}.jpg`
+    }else{
+      this.avator=`https://y.gtimg.cn/music/photo_new/T001R300x300M000${mid}.jpg`
+    }
+
   }
 }
