@@ -41,7 +41,7 @@
     mounted() {
       setTimeout(() => {
         this._initScroll()
-      }, 20)
+      }, this.refreshDelay)
     },
     methods: {
       _initScroll() {
