@@ -70,7 +70,9 @@
               <i @click="nextSong" class="icon-next"></i>
             </div>
             <div class="icon i-right">
-              <i class="icon icon-not-favorite"></i>
+              <i class="icon"
+                 @click="toggleFavorite(currentSong)"
+                 :class="getFavoriteIcon(currentSong)"></i>
             </div>
           </div>
         </div>
@@ -96,7 +98,12 @@
       </div>
       </transition>
       <PlayList ref="playList"></PlayList>
-      <audio ref="audio" @ended="end" @timeupdate="updateTime" :src="musicUrl" @canplay="musicReady" @error="musicError"></audio>
+      <audio ref="audio"
+             @ended="end"
+             @timeupdate="updateTime"
+             :src="musicUrl"
+             @play="musicReady"
+             @error="musicError"></audio>
     </div>
 </template>
 
@@ -147,7 +154,7 @@
               }
               getSongUrl(this.currentSong.mid).then((response)=>{
                 let base = response.req_0.data;
-                let vkey = base.midurlinfo[0].vkey,media = base.midurlinfo[0].filename,base_url = base.sip[1];
+                let vkey = base.midurlinfo[0].vkey,media = base.midurlinfo[0].filename,base_url = base.sip[0];
                 let url = `${base_url}${media}?guid=4029829689&vkey=${vkey}&uin=0&fromtag=66`;
                 if(vkey==""){
                   //遇到不能播放的直接跳到下一首
@@ -157,7 +164,8 @@
                 }
                 this.musicUrl = url;
                 let _this = this;
-                setTimeout(function () {
+                clearTimeout(this.timer)
+                this.timer = setTimeout(function () {
                   _this.$refs.audio.play()
                   _this.getLyric()
                 },500)
@@ -215,7 +223,7 @@
           middleTouchEnd(){
             let offsetWidth,opacity;
             if(this.currentShow === 'cd'){
-              if(this.touch.percent>0.1){
+              if(this.touch.percent>0.2){
                 offsetWidth = -window.innerWidth
                 opacity = 0
                 this.currentShow = 'lyric'
@@ -224,7 +232,7 @@
                 opacity =1
               }
             }else{
-              if(this.touch.percent<0.9){
+              if(this.touch.percent<0.8&&this.touch.percent>0.4){
                 offsetWidth = 0
                 this.currentShow = 'cd'
                 opacity =1
@@ -243,6 +251,9 @@
           getLyric(){
             this.currentSong.getLyric().then((lyric)=>
             {
+              if(this.currentSong.lyric!==lyric){
+                return
+              }
               this.currentLyric = new Lyric(lyric,this.handleLyric)
               if(this.playing){
                 this.currentLyric.play()
@@ -301,6 +312,7 @@
              }
              if(this.playList.length ===1){
                this.loop()
+               return
              }else{
                let index = this.currentIndex+1
                if(index === this.playList.length){
@@ -320,6 +332,7 @@
             }
             if(this.playList.length===1){
               this.loop()
+              return
             }else{
               let index = this.currentIndex-1
               if(index === -1){

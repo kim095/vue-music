@@ -35,7 +35,6 @@ let vendor = (()=>{
 
   for(let key in transformName){
     if(elementStyle[transformName[key]]!==undefined){
-      console.log(key)
       return key
     }
   }
