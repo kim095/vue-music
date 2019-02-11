@@ -1,21 +1,23 @@
 # vue-music
 
-> Music
+> Vue-Music 
 
 ## Build Setup
 
 ``` bash
-# install dependencies
+# 安装依赖
 npm install
 
-# serve with hot reload at localhost:8080
+# 运行程序
 npm run dev
 
-# build for production with minification
+# 生成生产环境所需要的文件
 npm run build
 
-# build for production and view the bundle analyzer report
-npm run build --report
+# 服务器端运行(使用PM2进行进程守护)
+npm install pm2 -g
+pm2 start prod.server.js
+
 ```
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
